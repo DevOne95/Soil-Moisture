@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:soil_moisture_app/home_controller.dart';
 
-class MoistureLevel extends StatelessWidget {
+class MoistureLevel extends GetView<HomeController> {
   const MoistureLevel({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<MoistureLevelModel> moistureLevels = [
-      MoistureLevelModel(label: 'Dry', value: 23),
-      MoistureLevelModel(label: 'Moist', value: 55),
-      MoistureLevelModel(label: 'Optimal', value: 60),
-      MoistureLevelModel(label: 'Saturated', value: 90),
-    ];
     return SizedBox(
       width: Get.width,
       height: Get.height * 0.4,
-      child: ListView.builder(
-        itemCount: moistureLevels.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text('Label: ${moistureLevels[index].label}'),
-            subtitle: Text('Value: ${moistureLevels[index].value.toString()}'),
-            // You can customize the ListTile as needed
-          );
-        },
+      child: Obx(
+        () => ListView.builder(
+          itemCount: controller.moistureLevelController.moistureLevel.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              width: Get.width,
+              height: 40,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(controller
+                        .moistureLevelController.moistureLevel[index].label),
+                    Text(
+                        'value: ${controller.moistureLevelController.moistureLevel[index].value.toString()}')
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

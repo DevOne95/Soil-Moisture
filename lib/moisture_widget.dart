@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
+import 'package:soil_moisture_app/home_controller.dart';
 
-class MoistureWidget extends StatelessWidget {
+class MoistureWidget extends GetView<HomeController> {
   const MoistureWidget({super.key});
 
   @override
@@ -21,32 +22,43 @@ class MoistureWidget extends StatelessWidget {
                   SizedBox(
                     child: Row(
                       children: [
-                        Text('Normal - '.toUpperCase(),
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 7, 100, 175),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600)),
-                        Text('60%'.toUpperCase(),
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 7, 100, 175),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600))
+                        Obx(
+                          () => Text(
+                              controller.moistureLevelController
+                                  .moistureCurrentTag.value
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 24, 121, 5),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                        const SizedBox(width: 10),
+                        Obx(
+                          () => Text(
+                              controller.moistureLevelController
+                                  .moistureCurrentLevel.value
+                                  .toString(),
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 24, 121, 5),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600)),
+                        )
                       ],
                     ),
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'Wednesday',
-                        style: TextStyle(
+                        controller.fetchDayOfWeek(),
+                        style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             color: Color.fromARGB(255, 8, 142, 11)),
                       ),
                       Text(
-                        '14th April, 2023',
-                        style: TextStyle(
+                        controller.formatDate(),
+                        style: const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w500),
                       )
                     ],
@@ -54,56 +66,55 @@ class MoistureWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              width: Get.width,
-              height: 180,
-              child: LineChart(
-                LineChartData(
-                  minY: 0,
-                  maxY: 100,
-                  borderData: FlBorderData(
-                      border: const Border(
-                          top: BorderSide.none,
-                          left: BorderSide(width: 1, color: Colors.black54),
-                          bottom: BorderSide(width: 1, color: Colors.black54))),
-                  gridData: const FlGridData(
-                      horizontalInterval: 10,
-                      show: true,
-                      drawVerticalLine: true,
-                      drawHorizontalLine: true),
-                  titlesData: const FlTitlesData(
-                      topTitles: AxisTitles(drawBelowEverything: false),
-                      bottomTitles: AxisTitles(drawBelowEverything: false),
-                      rightTitles: AxisTitles(drawBelowEverything: true),
-                      leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                              reservedSize: 40, interval: 10, showTitles: true),
-                          axisNameSize: 14,
-                          drawBelowEverything: true)),
-                  lineBarsData: [
-                    LineChartBarData(
-                      color: const Color.fromARGB(255, 40, 62, 2),
-                      spots: [
-                        FlSpot(0, 52),
-                        FlSpot(1, 23),
-                        FlSpot(2, 55),
-                        FlSpot(3, 60),
-                        FlSpot(4, 42),
-                        FlSpot(5, 76),
-                        FlSpot(6, 60),
-                      ],
-                      isCurved: true,
-                      belowBarData: BarAreaData(
-                          show: true,
-                          gradient: const LinearGradient(colors: [
-                            Colors.green,
-                            Colors.lightGreen,
-                          ])),
-                      dotData: const FlDotData(show: false),
-                      gradient: const LinearGradient(
-                          colors: [Colors.green, Colors.lightGreen]),
-                    )
-                  ],
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: SizedBox(
+                width: Get.width,
+                height: 180,
+                child: LineChart(
+                  LineChartData(
+                    minY: 0,
+                    maxY: 100,
+                    borderData: FlBorderData(
+                        border: const Border(
+                            top: BorderSide.none,
+                            left: BorderSide(width: 1, color: Colors.black54),
+                            bottom:
+                                BorderSide(width: 1, color: Colors.black54))),
+                    gridData: const FlGridData(
+                        horizontalInterval: 10,
+                        show: true,
+                        drawVerticalLine: true,
+                        drawHorizontalLine: true),
+                    titlesData: const FlTitlesData(
+                        topTitles: AxisTitles(drawBelowEverything: false),
+                        bottomTitles: AxisTitles(drawBelowEverything: false),
+                        rightTitles: AxisTitles(drawBelowEverything: true),
+                        leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                                reservedSize: 40,
+                                interval: 10,
+                                showTitles: true),
+                            axisNameSize: 14,
+                            drawBelowEverything: true)),
+                    lineBarsData: [
+                      LineChartBarData(
+                        color: const Color.fromARGB(255, 40, 62, 2),
+                        spots: controller
+                            .moistureLevelController.currentListChart.value,
+                        isCurved: true,
+                        belowBarData: BarAreaData(
+                            show: true,
+                            gradient: const LinearGradient(colors: [
+                              Colors.green,
+                              Colors.lightGreen,
+                            ])),
+                        dotData: const FlDotData(show: false),
+                        gradient: const LinearGradient(
+                            colors: [Colors.green, Colors.lightGreen]),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

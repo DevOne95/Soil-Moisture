@@ -44,45 +44,23 @@ class AppBarWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: 15,
-              right: 10,
-              child: Container(
-                width: 150,
-                height: 35,
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26, blurRadius: 0.5, spreadRadius: 0.5)
-                ], borderRadius: BorderRadius.all(Radius.circular(25))),
-                child: Container(
-                  width: 150,
-                  height: 35,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: TextField(
-                      controller: null,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        label: const Text(
-                          'Search',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        border: InputBorder.none,
-                        suffixIcon: IconButton(
-                          padding: const EdgeInsets.only(bottom: 1),
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            // _searchController.clear();
-                          },
-                        ),
-                      ),
-                      onChanged: (value) {},
-                    ),
-                  ),
+              top: 20,
+              right: 20,
+              child: InkWell(
+                onTap: () => Get.toNamed('/guide'),
+                child: const Row(
+                  children: [
+                    Icon(Icons.menu_book_rounded,
+                        color: Color.fromARGB(255, 8, 142, 11)),
+                    SizedBox(width: 10),
+                    Text('Guide',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromARGB(255, 8, 142, 11)))
+                  ],
                 ),
-              ))
+              )),
         ],
       ),
     );
