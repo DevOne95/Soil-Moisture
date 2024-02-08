@@ -1,37 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
-import 'package:soil_moisture_app/moisture_level.dart';
+import 'package:soil_moisture_app/moisture_level_model.dart';
 
 class MoistureLevelController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final RxList<MoistureLevelModel> items = RxList<MoistureLevelModel>();
+
   final RxInt moistureCurrentLevel = 40.obs;
   final RxString moistureCurrentTag = "Normal".obs;
 
-  final RxList<MoistureLevelModel> moistureLevel =
-      RxList<MoistureLevelModel>([]).obs();
-
   final RxList<FlSpot> currentListChart = RxList<FlSpot>([]).obs();
 
-  final List<MoistureLevelModel> listLevel = [
-    MoistureLevelModel(label: 'Dry', value: 23),
-    MoistureLevelModel(label: 'Moist', value: 55),
-    MoistureLevelModel(label: 'Optimal', value: 60),
-    MoistureLevelModel(label: 'Saturated', value: 90),
-  ];
-
   final List<FlSpot> listChart = [
-    FlSpot(0, 52),
-    FlSpot(1, 23),
-    FlSpot(2, 55),
-    FlSpot(3, 60),
-    FlSpot(4, 42),
-    FlSpot(5, 76),
-    FlSpot(6, 60),
+    const FlSpot(0, 52),
+    const FlSpot(1, 23),
+    const FlSpot(2, 55),
+    const FlSpot(3, 60),
+    const FlSpot(4, 42),
+    const FlSpot(5, 76),
+    const FlSpot(6, 60),
   ];
 
   @override
   void onInit() {
-    moistureLevel.value = listLevel;
-    currentListChart.value = listChart;
+    _firestore.collection('moisture_level').snapshots().listen((snapshot) {
+      items.assignAll(
+          snapshot.docs.map((doc) => MoistureLevelModel.fromFirestore(doc)));
+    });
     super.onInit();
   }
 }
