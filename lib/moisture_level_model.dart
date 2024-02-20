@@ -17,8 +17,10 @@ class MoistureLevelModel {
     return MoistureLevelModel(
       id: doc.id,
       label: data['label'],
-      value: data['value'],
-      createdAt: (data['createdAt'] as Timestamp).toDate(),
+      value: double.parse(data['level'].toString()),
+      createdAt: (data['date'] as Timestamp).toDate(),
     );
   }
+
+  double get level => value;
 }

@@ -27,7 +27,27 @@ class MoistureLevelController extends GetxController {
     _firestore.collection('moisture_level').snapshots().listen((snapshot) {
       items.assignAll(
           snapshot.docs.map((doc) => MoistureLevelModel.fromFirestore(doc)));
+
+      // Update the chart when items change
+      updateChart();
     });
     super.onInit();
+  }
+
+  void updateChart() {
+    // Clear currentListChart
+    currentListChart.clear();
+
+    // Register 10 FlSpot from items value
+    for (int i = 0; i < items.length; i++) {
+      if (i >= 10) break; // Break loop if already registered 10 FlSpot
+      final item = items[i];
+      currentListChart.add(FlSpot(i.toDouble(), item.level.toDouble()));
+    }
+
+    // If less than 10 items, add remaining FlSpots with value 0
+    while (currentListChart.length < 10) {
+      currentListChart.add(FlSpot(currentListChart.length.toDouble(), 0));
+    }
   }
 }

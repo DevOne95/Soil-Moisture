@@ -10,7 +10,7 @@ class Dashboard extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> buttonLabels = ["Diligi Ku Be", "Watering plant"];
+    List<String> buttonLabels = ["Water Plant", "Watering plant"];
 
     return Scaffold(
         appBar: AppBar(
