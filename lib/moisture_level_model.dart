@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class MoistureLevelModel {
   final String id;
   final String label;
-  final double value;
+  final int value;
   final DateTime createdAt;
 
   MoistureLevelModel(
@@ -17,10 +17,10 @@ class MoistureLevelModel {
     return MoistureLevelModel(
       id: doc.id,
       label: data['label'],
-      value: double.parse(data['level'].toString()),
+      value: data['level'],
       createdAt: (data['date'] as Timestamp).toDate(),
     );
   }
 
-  double get level => value;
+  int get level => value;
 }

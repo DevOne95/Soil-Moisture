@@ -68,11 +68,11 @@ class MoistureWidget extends GetView<HomeController> {
             ),
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
-              child: Obx(
-                () => SizedBox(
-                  width: Get.width,
-                  height: 180,
-                  child: LineChart(
+              child: SizedBox(
+                width: Get.width,
+                height: 180,
+                child: Obx(
+                  () => LineChart(
                     LineChartData(
                       minY: 0,
                       maxY: 300,
