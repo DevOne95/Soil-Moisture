@@ -12,7 +12,11 @@ class WaterLogController extends GetxController {
 
   @override
   void onInit() {
-    _firestore.collection('water_logs').snapshots().listen((snapshot) {
+    _firestore
+        .collection('water_logs')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .listen((snapshot) {
       snapshot.docs.map((doc) => print(doc));
       items.assignAll(
           snapshot.docs.map((doc) => WateringLogModel.fromFirestore(doc)));

@@ -14,7 +14,11 @@ class MoistureLevelController extends GetxController {
 
   @override
   void onInit() {
-    _firestore.collection('moisture_level').snapshots().listen((snapshot) {
+    _firestore
+        .collection('moisture_level')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .listen((snapshot) {
       snapshot.docs.map((doc) => print(doc));
       items.assignAll(
           snapshot.docs.map((doc) => MoistureLevelModel.fromFirestore(doc)));
